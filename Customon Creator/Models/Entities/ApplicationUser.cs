@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Customon_Creator.Models.Entities {
     public class ApplicationUser : IdentityUser {
@@ -7,6 +8,12 @@ namespace Customon_Creator.Models.Entities {
         public ICollection<Pokemon> Pokemon { get; set; } = new List<Pokemon>();
         // A user can create many moves
         public ICollection<Move> Moves { get; set; } = new List<Move>();
+
+        [NotMapped]
+        public Pokemon[] Team => Pokemon
+            .Where(p => p.TeamSlot != null)
+            .OrderBy(p => p.TeamSlot)
+            .ToArray();
 
     }
 }

@@ -13,6 +13,5 @@ namespace Customon_Creator.Services
         public DbSet<Move> Moves => Set<Move>();
         public DbSet<PokemonMoveList> PokemonMoveList => Set<PokemonMoveList>();
 
-
     }
 }

@@ -14,8 +14,11 @@ namespace Customon_Creator.Models.Entities {
         public int SpDef {  get; set; }
         public int Speed { get; set; }
 
+        // Null means not on team
+        public int? TeamSlot { get; set; } 
+
         // User can have many pokemon
-        public int UserId { get; set; }
+        public string UserId { get; set; } = "";
         public ApplicationUser? User { get; set; }
 
         // pokemon can have many moves (M:N)

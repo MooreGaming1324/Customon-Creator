@@ -15,6 +15,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddUserManager<UserManager<ApplicationUser>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUserRepository, DbUserRepository>();
+builder.Services.AddScoped<IPokemonRepository, DbPokemonRepository>();
+
 
 var app = builder.Build();
 
