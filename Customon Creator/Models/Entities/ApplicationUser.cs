@@ -15,5 +15,13 @@ namespace Customon_Creator.Models.Entities {
             .OrderBy(p => p.TeamSlot)
             .ToArray();
 
+        public bool IsOwner(Pokemon pokemon) {
+            if (this.Id == pokemon.UserId) return true;
+            return false;
+        }
+        public bool IsOwner(Move move) {
+            if (this.Id == move.UserId) return true;
+            return false;
+        }
     }
 }

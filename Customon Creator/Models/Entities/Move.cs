@@ -7,8 +7,8 @@ namespace Customon_Creator.Models.Entities {
         public int Id { get; set; }
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
-        public string Type { get; set; } = "";
-        public string Category { get; set; } = "";
+        public Pokemon.Type Type { get; set; }
+        public DmgCategory Category { get; set; }
         public int Power { get; set; }
         public int Accuracy { get; set; }
         public int PP { get; set; }
@@ -21,5 +21,10 @@ namespace Customon_Creator.Models.Entities {
         // A move can belong to many pokemon (M:N)
         public ICollection<PokemonMoveList> PokemonList { get; set; } = new List<PokemonMoveList>();
 
+        public enum DmgCategory {
+            Physical,
+            Special,
+            Status
+        }
     }
 }

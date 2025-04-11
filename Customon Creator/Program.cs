@@ -1,3 +1,4 @@
+using Customon_Creator.Areas.Identity.Pages.Account;
 using Customon_Creator.Models.Entities;
 using Customon_Creator.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +14,17 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddUserManager<UserManager<ApplicationUser>>()
+    .AddSignInManager<MySignInManager>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.Configure<IdentityOptions>(options => {
+    options.User.RequireUniqueEmail = true;
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserRepository, DbUserRepository>();
 builder.Services.AddScoped<IPokemonRepository, DbPokemonRepository>();
+builder.Services.AddScoped<IMoveRepository, DbMoveRepository>();
+
 
 
 var app = builder.Build();

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Customon_Creator.Models.Entities.Pokemon>
+﻿@model IEnumerable<Customon_Creator.Models.Entities.Move>
 
 @{
     ViewData["Title"] = "All";
@@ -19,28 +19,22 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type1)
+                @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type2)
+                @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HP)
+                @Html.DisplayNameFor(model => model.Power)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Attack)
+                @Html.DisplayNameFor(model => model.Accuracy)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Defense)
+                @Html.DisplayNameFor(model => model.PP)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SpAtk)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpDef)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Speed)
+                @Html.DisplayNameFor(model => model.Priority)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserId)
@@ -58,28 +52,22 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type1)
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type2)
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HP)
+                @Html.DisplayFor(modelItem => item.Power)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Attack)
+                @Html.DisplayFor(modelItem => item.Accuracy)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Defense)
+                @Html.DisplayFor(modelItem => item.PP)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SpAtk)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpDef)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speed)
+                @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)

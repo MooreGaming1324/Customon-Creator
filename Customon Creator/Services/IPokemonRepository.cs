@@ -6,7 +6,7 @@ namespace Customon_Creator.Services {
         Task<ICollection<Pokemon>> ReadAllAsync();
         Task<Pokemon> CreateAsync(Pokemon newPokemon);
         Task<Pokemon?> ReadAsync(int id);
-        Task UpdateAsync(int oldId, Pokemon pokemon);
-        Task DeleteAsync(int id);
+        Task<bool> UpdateAsync(string userId, int oldId, Pokemon pokemon);
+        Task DeleteAsync(string userId, int id);
     }
 }

@@ -18,12 +18,16 @@ namespace Customon_Creator.Services {
         public async Task<Pokemon?> ReadAsync(int id) {
             return await _db.Pokemon.FindAsync(id);
         }
-        public async Task UpdateAsync(int oldId, Pokemon pokemon) {
+        public async Task<bool> UpdateAsync(string userid ,int oldId, Pokemon pokemon) {
             Pokemon? pokemonToUpdate = await ReadAsync(oldId);
             if (pokemonToUpdate != null) {
+                if (userid != pokemonToUpdate.UserId) {
+                    return false;
+                }
                 pokemonToUpdate.Name = pokemon.Name;
                 pokemonToUpdate.Description = pokemon.Description;
-                pokemonToUpdate.Type = pokemon.Type;
+                pokemonToUpdate.Type1 = pokemon.Type1;
+                pokemonToUpdate.Type2 = pokemon.Type2;
                 pokemonToUpdate.HP = pokemon.HP;
                 pokemonToUpdate.Attack = pokemon.Attack;
                 pokemonToUpdate.Defense = pokemon.Defense;
@@ -32,10 +36,11 @@ namespace Customon_Creator.Services {
                 pokemonToUpdate.Speed = pokemon.Speed;
                 await _db.SaveChangesAsync();
             }
+            return true;
         }
-        public async Task DeleteAsync(int id) {
+        public async Task DeleteAsync(string userId, int id) {
             Pokemon? pokemonToDelete = await ReadAsync(id);
-            if (pokemonToDelete != null) {
+            if (pokemonToDelete != null && userId == pokemonToDelete.UserId) {
                 _db.Pokemon.Remove(pokemonToDelete);
                 await _db.SaveChangesAsync();
             }
