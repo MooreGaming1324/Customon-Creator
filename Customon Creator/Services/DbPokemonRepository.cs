@@ -1,4 +1,5 @@
 ﻿using Customon_Creator.Models.Entities;
+using Customon_Creator.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,15 +11,32 @@ namespace Customon_Creator.Services {
         public async Task<ICollection<Pokemon>> ReadAllAsync() {
             return await _db.Pokemon.ToListAsync();
         }
-        public async Task<Pokemon> CreateAsync(Pokemon newPokemon) {
+        public async Task<Pokemon> CreateAsync(Pokemon newPokemon, List<int>? moveIds) {
             await _db.Pokemon.AddAsync(newPokemon);
+            if (moveIds != null) {
+                foreach (var moveId in moveIds) {
+                    if (moveId == 0) { continue; }
+                    var move = await _db.Moves.FindAsync(moveId);
+                    if (move != null) {
+                        var pokemonmove = new PokemonMoveList {
+                            Pokemon = newPokemon,
+                            Move = move
+                        };
+                        newPokemon.MoveList.Add(pokemonmove);
+                        move.PokemonList.Add(pokemonmove);
+                    }
+                }
+            }
             await _db.SaveChangesAsync();
             return newPokemon;
         }
         public async Task<Pokemon?> ReadAsync(int id) {
-            return await _db.Pokemon.FindAsync(id);
+            return await _db.Pokemon
+                .Include(p => p.MoveList)
+                .ThenInclude(m => m.Move)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
-        public async Task<bool> UpdateAsync(string userid ,int oldId, Pokemon pokemon) {
+        public async Task<bool> UpdateAsync(string userid, int oldId, Pokemon pokemon, List<int>? moveIds = null) {
             Pokemon? pokemonToUpdate = await ReadAsync(oldId);
             if (pokemonToUpdate != null) {
                 if (userid != pokemonToUpdate.UserId) {
@@ -34,6 +52,11 @@ namespace Customon_Creator.Services {
                 pokemonToUpdate.SpAtk = pokemon.SpAtk;
                 pokemonToUpdate.SpDef = pokemon.SpDef;
                 pokemonToUpdate.Speed = pokemon.Speed;
+
+                if (moveIds != null) {
+                    await ResetMovesAsync(pokemon.Id, moveIds);
+                }
+
                 await _db.SaveChangesAsync();
             }
             return true;
@@ -45,5 +68,31 @@ namespace Customon_Creator.Services {
                 await _db.SaveChangesAsync();
             }
         }
+
+        private async Task ResetMovesAsync(int id, List<int> moveIds) {
+            var pokemon = await ReadAsync(id);
+            var moves = pokemon!.MoveList;
+            //remove all old moves
+            foreach (var move in moves.ToList()) {
+                pokemon.MoveList.Remove(move);
+                move.Move!.PokemonList.Remove(move);
+            }
+            //add new moves
+            foreach (var moveId in moveIds) {
+                if (moveId == 0) { continue; }
+                var move = await _db.Moves.FindAsync(moveId);
+                if (move != null && pokemon != null) {
+                    var pokemonmove = new PokemonMoveList {
+                        Pokemon = pokemon,
+                        Move = move
+                    };
+                    pokemon.MoveList.Add(pokemonmove);
+                    move.PokemonList.Add(pokemonmove);
+                }
+            }
+            await _db.SaveChangesAsync();
+        }
+
+
     }
 }

@@ -25,4 +25,11 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\js\pokemon\create.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

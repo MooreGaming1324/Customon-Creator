@@ -1,8 +1,10 @@
 ﻿using Customon_Creator.Models.Entities;
+using Customon_Creator.Models.ViewModels;
 using Customon_Creator.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 
 namespace Customon_Creator.Controllers {
@@ -21,18 +23,21 @@ namespace Customon_Creator.Controllers {
             return View(await _pokemonRepo.ReadAllAsync());
         }
 
-        public IActionResult Create() {
+        public async Task<IActionResult> Create() {
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.Moves = new SelectList(await _userRepo.GetMovesAsync(user!.Id), "Id", "Name");
             return View();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Pokemon newPokemon) {
+        public async Task<IActionResult> Create(Pokemon newPokemon, List<int> moveIds) {
             var user = await _userManager.GetUserAsync(User);
             if (ModelState.IsValid) {
                 newPokemon.UserId = user!.Id;
-                await _pokemonRepo.CreateAsync(newPokemon);
+                await _pokemonRepo.CreateAsync(newPokemon, moveIds);
                 return RedirectToAction("Index");
             }
+            ViewBag.Moves = new SelectList(await _userRepo.GetMovesAsync(user!.Id), "Id", "Name");
             return View(newPokemon);
         }
 
@@ -51,16 +56,19 @@ namespace Customon_Creator.Controllers {
             if (pokemon == null || !user!.IsOwner(pokemon)) {
                 return RedirectToAction("Index");
             }
+            ViewBag.Moves = new SelectList(await _userRepo.GetMovesAsync(user!.Id), "Id", "Name");
+            //ViewBag.Moves = await _userRepo.GetMovesAsync(user!.Id);
             return View(pokemon);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Pokemon pokemon) {
+        public async Task<IActionResult> Edit(Pokemon pokemon, List<int> moveIds) {
             var user = await _userManager.GetUserAsync(User);
             //Check if the user is the proper owner of original unedited pokemon
-            if (ModelState.IsValid && await _pokemonRepo.UpdateAsync(user!.Id, pokemon.Id, pokemon)) {
+            if (ModelState.IsValid && await _pokemonRepo.UpdateAsync(user!.Id, pokemon.Id, pokemon, moveIds)) {
                 return RedirectToAction("Index");
             }
+            ViewBag.Moves = new SelectList(await _userRepo.GetMovesAsync(user!.Id), "Id", "Name");
             return View(pokemon);
         }
 

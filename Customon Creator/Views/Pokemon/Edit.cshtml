@@ -12,7 +12,6 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -67,9 +66,39 @@
                 <input asp-for="Speed" class="form-control" />
                 <span asp-validation-for="Speed" class="text-danger"></span>
             </div>
+            <label class="control-label">Moves</label>
+            <div class="form-group" id="MovesList">
+                @foreach (var oldMove in Model.MoveList.Select(m => m.Move).ToList()) {
+                    <div class="row">
+                        <div class="col-lg">
+                            <select name="moveIds" class="form-control mb-2">
+                                <option selected value="@oldMove!.Id">@oldMove!.Name</option>
+                                @foreach (var move in ViewBag.Moves) {
+                                    <option value="@move.Value">@move.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-danger deletebtn" value="X" />
+                        </div>
+                    </div>
+                }
+                <div class="row" id="selectTemplate" hidden>
+                    <div class="col-lg">
+                        <select name="moveIds" class="form-control mb-2">
+                            <option selected value="0" id="optionSelect">Select</option>
+                            @foreach (var move in ViewBag.Moves) {
+                                <option value="@move.Value">@move.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
@@ -80,4 +109,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="module" src="~/js/pokemon/edit.js" defer></script>
 }
