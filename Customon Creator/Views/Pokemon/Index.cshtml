@@ -9,17 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover w-100" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th>
+            <th style="max-width: 50%;">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th style="max-width: 50%;">
                 Type
-            </th>
-            <th>
-
             </th>
             <th></th>
         </tr>
@@ -27,19 +24,22 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+                <td class="text-truncate" style="text-overflow: ellipsis">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type1)
+                    <span class="badge color-@item.Type1">
+                        @Html.DisplayFor(modelItem => item.Type1)
+                    </span>
+                    <br />
+                    <span class="badge color-@item.Type2">
+                        @Html.DisplayFor(modelItem => item.Type2)
+                    </span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type2)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a type="button" class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;&nbsp;
+                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;&nbsp;
+                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

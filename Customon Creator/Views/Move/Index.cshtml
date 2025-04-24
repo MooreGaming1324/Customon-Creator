@@ -37,10 +37,14 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                <span class="badge color-@item.Type">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                <span class="badge color-@item.Category">
+                    @Html.DisplayFor(modelItem => item.Category)
+                </span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Power)
@@ -48,11 +52,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Accuracy)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    <a type="button" class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;&nbsp;
+                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;&nbsp;
+                    <a type="button" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
         </tr>
 }
     </tbody>

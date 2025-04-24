@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Customon_Creator.Models.Entities {
     public class Pokemon {
         public int Id { get; set; }
+        [StringLength(64)]
         public string Name { get; set; } = "";
+        [StringLength(512)]
         public string Description { get; set; } = "";
         public Type Type1 { get; set; }
         public Type? Type2 { get; set; }
