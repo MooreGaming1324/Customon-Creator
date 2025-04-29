@@ -1,0 +1,46 @@
+﻿@model Customon_Creator.Models.ViewModels.TeamVM
+
+<div class="modal fade" tabindex="-1" id="editTeamModal" role="dialog" aria-labelledby="editTeamModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40em;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Edit Team
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-5">
+                <p class="text-warning">You may only add pokemon that have at least 1 move!</p>
+                <form asp-action="UpdateTeam" id="formTeam">
+                    <div class="form-group">
+                        @for (int i = 1; i <= 6; i++) {
+                                <label for="Pokemon-@i" class="form-label">Slot #@i</label>
+                                <select class="form-select form-control-lg" id="Pokemon-@i" name="teamIds">
+                                    @if (!Model.PokemonList!.Any(p => p.TeamSlot == i)) {
+                                    <option selected value="0" id="optionSelect">None</option>
+                                } else {
+                                    <option selected value="0" id="optionSelect">None</option>
+                                }
+                                @foreach (var pokemon in Model.PokemonList!) {
+                                        if (pokemon.TeamSlot == i) {
+                                        <option selected value="@pokemon.Id">@pokemon.Name</option>
+                                        } else if (pokemon.MoveList.Count() > 0) {
+                                            <option value="@pokemon.Id">@pokemon.Name</option>
+                                        }
+                                    }
+                                </select>
+                        }
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="formTeam" class="btn btn-primary" id="teamModalSubmit">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Customon_Creator.Models.Entities.Pokemon>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pokemon";
 }
 
-<h1>Index</h1>
+<h1>My Pokemon</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
 </p>
 <table class="table table-hover w-100" style="table-layout: fixed;">
     <thead>
@@ -21,7 +21,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
 @foreach (var item in Model) {
         <tr>
                 <td class="text-truncate" style="text-overflow: ellipsis">

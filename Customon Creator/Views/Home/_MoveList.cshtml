@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Customon_Creator.Models.Entities.Move>
+
+<br />
+<div>
+    <h4>Moves</h4>
+    <a asp-controller="Move" asp-action="Create" class="btn btn-success btn-sm">Create New</a>
+</div>
+
+<div style="max-height: 75%; overflow-y: auto;">
+    <table class="table table-sm table-hover mb-0">
+        <thead>
+            <tr>
+                <th style="width: 30%;">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th style="width: 20%;">
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th style="width: 30%;">
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th style="width: 20%; min-width: 190px;"></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model) {
+                <tr>
+                    <td class="text-truncate" style="max-width: 1px;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <span class="badge color-@item.Type">
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill color-@item.Category">
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </span>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-warning btn-sm" asp-controller="Move" asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;&nbsp;
+                        <a type="button" class="btn btn-info btn-sm" asp-controller="Move" asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;&nbsp;
+                        <a type="button" class="btn btn-danger btn-sm" asp-controller="Move" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

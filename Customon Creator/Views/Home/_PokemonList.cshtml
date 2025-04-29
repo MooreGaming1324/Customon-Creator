@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Customon_Creator.Models.Entities.Pokemon>
+
+<div>
+    <h4>Pokemon</h4>
+    <a asp-controller="Pokemon" asp-action="Create" class="btn btn-success btn-sm">Create New</a>
+</div>
+
+<div style="max-height: 75%; overflow-y: auto;">
+    <table class="table table-sm table-hover mb-0">
+        <thead>
+            <tr>
+                <th style="width: 40%;">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th style="width: 30%;">Type</th>
+                <th style="width: 30%; min-width: 190px"></th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model) {
+                <tr>
+                    <td class="text-truncate" style="max-width: 1px;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <span class="badge color-@item.Type1">
+                            @Html.DisplayFor(modelItem => item.Type1)
+                        </span>
+                        <br />
+                        <span class="badge color-@item.Type2">
+                            @Html.DisplayFor(modelItem => item.Type2)
+                        </span>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-warning btn-sm" asp-controller="Pokemon" asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;&nbsp;
+                        <a type="button" class="btn btn-info btn-sm" asp-controller="Pokemon" asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;&nbsp;
+                        <a type="button" class="btn btn-danger btn-sm" asp-controller="Pokemon" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

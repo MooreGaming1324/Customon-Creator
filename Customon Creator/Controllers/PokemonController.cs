@@ -19,6 +19,7 @@ namespace Customon_Creator.Controllers {
             return View(await _userRepo.GetPokemonAsync(user!.Id));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> All() {
             return View(await _pokemonRepo.ReadAllAsync());
         }

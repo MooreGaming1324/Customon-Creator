@@ -7,6 +7,10 @@ namespace Customon_Creator.Services {
     public class DbMoveRepository(ApplicationDbContext db) : IMoveRepository {
         private readonly ApplicationDbContext _db = db;
 
+
+        public int GetMoveCount() {
+            return _db.Moves.Count();
+        }
         public async Task<ICollection<Move>> ReadAllAsync() {
             return await _db.Moves.ToListAsync();
         }

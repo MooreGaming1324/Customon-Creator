@@ -8,6 +8,9 @@ namespace Customon_Creator.Services {
     public class DbPokemonRepository(ApplicationDbContext db) : IPokemonRepository {
         private readonly ApplicationDbContext _db = db;
 
+        public int GetPokemonCount() {
+            return _db.Pokemon.Count();
+        }
         public async Task<ICollection<Pokemon>> ReadAllAsync() {
             return await _db.Pokemon.ToListAsync();
         }
@@ -67,6 +70,19 @@ namespace Customon_Creator.Services {
                 _db.Pokemon.Remove(pokemonToDelete);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task UpdateTeamAsync(string userId, int[] pokemonIds) {
+            for (int i = 0; i < 6; i++) {
+                if (pokemonIds[i] != 0) {
+                    Pokemon? mon = await _db.Pokemon.FindAsync(pokemonIds[i]);
+                    if (mon != null) { mon.TeamSlot = i+1; }
+                } else {
+                    Pokemon? mon = await _db.Pokemon.FirstOrDefaultAsync(p => p.TeamSlot == i+1);
+                    if (mon != null) { mon.TeamSlot = null; }
+                }
+            }
+            await _db.SaveChangesAsync();
         }
 
         private async Task ResetMovesAsync(int id, List<int> moveIds) {

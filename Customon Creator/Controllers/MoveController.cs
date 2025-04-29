@@ -16,6 +16,7 @@ namespace Customon_Creator.Controllers {
             return View(await _userRepo.GetMovesAsync(user!.Id));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> All() {
             return View(await _moveRepo.ReadAllAsync());
         }

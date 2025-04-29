@@ -1,0 +1,71 @@
+﻿@model Customon_Creator.Models.ViewModels.TeamVM
+
+@{
+    ViewData["Title"] = "Team";
+}
+
+<h1>My Team</h1>
+
+<div class="row vw-80">
+    <div class="col-6">
+        <div class="row d-flex flex-wrap pt-5">
+        @for (int i = 1; i <= 6; i++) {
+            var mons = Model.PokemonList!.Where(x => x.TeamSlot == i);
+            if (mons.Count() != 0) {
+                var mon = mons.First();
+                <div class="card border-primary mx-3 mb-3 px-0" style="max-width: 15rem;">
+
+                    <div class="card-header">Slot #@i</div>
+                    <div class="card-body">
+                        <h4 class="card-title name">
+                            @mon.Name
+                        </h4>
+                        <p class="card-text">
+                            <span class="badge color-@mon.Type1 type1">
+                                @Html.DisplayFor(modelItem => mon.Type1)
+                            </span>
+                            <span class="badge color-@mon.Type2 type2">
+                                @Html.DisplayFor(modelItem => mon.Type2)
+                            </span>
+                        </p>
+                        <p class="card-text">
+                            <h6>Moves</h6>
+                            <div class="d-flex flex-wrap">
+                                @foreach (var move in mon.MoveList) {
+                                    <a style="flex-basis: 40%; flex-grow: 1;" class="move" asp-controller="Move" asp-action="Details" asp-route-id="@move.Move!.Id">@move.Move!.Name</a>
+                                }
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            } else {
+                <div class="card border-primary mx-3 mb-3 px-0" style="max-width: 15rem;">
+                    <div class="card-header">Slot #@i</div>
+                    <div class="card-body">
+                            <h4 class="card-title name">Empty...</h4>
+                        <p class="card-text">Add a pokemon to your team!</p>
+                    </div>
+                </div>
+            }
+        }
+        </div>
+        <div>
+            <button type="button" id="editTeamBtn" class="btn btn-primary btn-lg mx-3 mb-3" style="max-width: 12rem;">Edit Team</button>
+            <button type="button" id="copyTeamBtn" class="btn btn-secondary btn-lg mx-3 mb-3" style="max-width: 12rem; " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Copied!" data-bs-trigger="click focus">Copy Team</button>
+        </div>
+
+    </div>
+    <div class="col-6">
+        <div class="row h-50">
+              @await Html.PartialAsync("_PokemonList", Model.PokemonList)
+        </div>  
+        <div class="row h-50">
+            @await Html.PartialAsync("_MoveList", Model.MoveList)
+        </div>
+    </div>
+</div>
+<partial name="_EditTeamModal" />
+
+@section Scripts {
+    <script type="module" src="~/js/team.js" defer></script>
+}
