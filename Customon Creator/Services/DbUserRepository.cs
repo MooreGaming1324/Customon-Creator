@@ -34,6 +34,15 @@ namespace Customon_Creator.Services {
             }
             return user!.Pokemon;
         }
+
+        public async Task<ICollection<ApplicationUser>> GetAllTeamsAsync() {
+            return await _db.Users
+                .Include(u => u.Pokemon.Where(p => p.TeamSlot != null))
+                .ThenInclude(p => p.MoveList)
+                .ThenInclude(m => m.Move)
+                .ToListAsync();
+        }
+
         public async Task<ICollection<Move>> GetMovesAsync(string userId) {
             var user = await _db.Users.FindAsync(userId);
             if (user != null) {

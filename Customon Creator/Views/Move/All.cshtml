@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<Customon_Creator.Models.Entities.Move>
 
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "Moves";
 }
 
-<h1>All</h1>
+<h1>Moves</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                Creator
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -30,32 +30,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.Accuracy)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Priority)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td class="text-truncate" style="text-overflow: ellipsis">
+                @item.User!.UserName
+            </td>
+            <td class="text-truncate" style="text-overflow: ellipsis">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            <td class="text-truncate" style="text-overflow: ellipsis">
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                <span class="badge color-@item.Type">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                    <span class="badge rounded-pill color-@item.Category">
+                    @Html.DisplayFor(modelItem => item.Category)
+                </span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Power)
@@ -63,20 +61,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Accuracy)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Priority)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                <td>
+                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
         </tr>
 }
     </tbody>

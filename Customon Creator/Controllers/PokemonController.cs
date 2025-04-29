@@ -42,11 +42,16 @@ namespace Customon_Creator.Controllers {
             return View(newPokemon);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) {
             var user = await _userManager.GetUserAsync(User);
             var pokemon = await _pokemonRepo.ReadAsync(id);
-            if (pokemon == null || !user!.IsOwner(pokemon)) {
+            ViewBag.isOwner = false;
+            if (pokemon == null) {
                 return RedirectToAction("Index");
+            }
+            if (user != null) {
+                ViewBag.isOwner = user!.IsOwner(pokemon!);
             }
             return View(pokemon);
         }

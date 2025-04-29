@@ -12,7 +12,9 @@ namespace Customon_Creator.Services {
             return _db.Moves.Count();
         }
         public async Task<ICollection<Move>> ReadAllAsync() {
-            return await _db.Moves.ToListAsync();
+            return await _db.Moves
+                .Include(p => p.User)
+                .ToListAsync();
         }
         public async Task<Move> CreateAsync(Move newMove) {
             await _db.Moves.AddAsync(newMove);

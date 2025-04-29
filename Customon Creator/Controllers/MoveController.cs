@@ -36,11 +36,16 @@ namespace Customon_Creator.Controllers {
             return View(newMove);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id) {
             var user = await _userManager.GetUserAsync(User);
             var move = await _moveRepo.ReadAsync(id);
-            if (move == null || !user!.IsOwner(move)) {
+            ViewBag.isOwner = false;
+            if (move == null) {
                 return RedirectToAction("Index");
+            }
+            if (user != null) {
+                ViewBag.isOwner = user!.IsOwner(move!);
             }
             return View(move);
         }

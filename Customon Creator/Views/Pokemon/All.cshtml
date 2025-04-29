@@ -1,95 +1,54 @@
 ﻿@model IEnumerable<Customon_Creator.Models.Entities.Pokemon>
 
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "Pokemon";
 }
 
-<h1>All</h1>
+<h1>Pokemon</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-hover w-100" style="table-layout: fixed;">
     <thead>
         <tr>
-            <th>
+            <th style="width: 15%;">
+                Creator
+            </th>
+            <th style="max-width: 30%; width: 30%;">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th style="max-width: 50%; width: 30%;">
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HP)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attack)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Defense)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpAtk)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpDef)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Speed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
+            <th style="max-width: 10%;">
+                Type
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HP)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Attack)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Defense)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpAtk)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpDef)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+    <tbody class="table-group-divider">
+        @foreach (var item in Model) {
+            <tr>
+                <td class="text-truncate" style="text-overflow: ellipsis">
+                    @item.User!.UserName
+                </td>
+                <td class="text-truncate" style="text-overflow: ellipsis">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-truncate" style="text-overflow: ellipsis">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <span class="badge color-@item.Type1">
+                        @Html.DisplayFor(modelItem => item.Type1)
+                    </span>
+                    <br />
+                    <span class="badge color-@item.Type2">
+                        @Html.DisplayFor(modelItem => item.Type2)
+                    </span>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

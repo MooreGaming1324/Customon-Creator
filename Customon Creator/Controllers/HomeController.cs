@@ -31,8 +31,9 @@ namespace Customon_Creator.Controllers {
             return View();
         }
 
-        public IActionResult AllTeams() {
-            return View();
+        public async Task<IActionResult> AllTeams() {
+            var teams = await _userRepo.GetAllTeamsAsync();
+            return View(teams);
         }
 
         [Authorize]

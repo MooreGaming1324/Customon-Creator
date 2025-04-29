@@ -12,7 +12,9 @@ namespace Customon_Creator.Services {
             return _db.Pokemon.Count();
         }
         public async Task<ICollection<Pokemon>> ReadAllAsync() {
-            return await _db.Pokemon.ToListAsync();
+            return await _db.Pokemon
+                .Include(p => p.User)
+                .ToListAsync();
         }
         public async Task<Pokemon> CreateAsync(Pokemon newPokemon, List<int>? moveIds) {
             await _db.Pokemon.AddAsync(newPokemon);
