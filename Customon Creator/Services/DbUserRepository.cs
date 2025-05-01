@@ -52,5 +52,11 @@ namespace Customon_Creator.Services {
             }
             return user!.Moves;
         }
+
+        public async Task<ApplicationUser?> GetUserAsync(string username) {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.UserName == username);
+            return user;
+        }
+
     }
 }

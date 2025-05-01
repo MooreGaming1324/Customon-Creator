@@ -13,7 +13,7 @@ namespace Customon_Creator.Services {
         }
         public async Task<ICollection<Move>> ReadAllAsync() {
             return await _db.Moves
-                .Include(p => p.User)
+                .Include(m => m.User)
                 .ToListAsync();
         }
         public async Task<Move> CreateAsync(Move newMove) {
@@ -23,6 +23,11 @@ namespace Customon_Creator.Services {
         }
         public async Task<Move?> ReadAsync(int id) {
             return await _db.Moves.FindAsync(id);
+        }
+        public async Task<Move?> ReadWithUserAsync(int id) {
+            return await _db.Moves
+                .Include(m => m.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
         public async Task<bool> UpdateAsync(string userid ,int oldId, Move move) {
             Move? moveToUpdate = await ReadAsync(oldId);

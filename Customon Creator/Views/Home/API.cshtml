@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "API Docs";
+    ViewBag.address = "https://localhost:7291";
+}
+<br />
+<div class="">
+    <h1 class="display-4">API Documentation</h1>
+    <p>Only features for moves have been added to the API.</p>
+    <h3>Endpoints:</h3>
+    <h5><code>GET @ViewBag.address/api/move</code></h5>
+    <p>Used to fetch all moves and their authors.</p>
+
+    <h5><code>GET @ViewBag.address/api/move/{id}</code></h5>
+    <p>Used to get details on a specific move.</p>
+
+    <h5><code>POST @ViewBag.address/api/move</code></h5>
+    <p>Used to create a new move under the "Anonymous" user.<br />
+        Example:<br />
+        <code>curl.exe -X POST @ViewBag.address/api/move -H "Content-Type: application/x-www-form-urlencoded" -d "Name=APICreatedMove&Description=This+was+made+by+an+api+call&Type=Fire&Category=Physical&Power=100&Accuracy=75&PP=20&Priority=1"</code>
+    </p>
+    <h5><code>PUT @ViewBag.address/api/move</code></h5>
+    <p>Used update a move. Only works on moves created by "Anonymous".<br />
+        Example:<br />
+        <code>curl.exe -X PUT @ViewBag.address/api/move -H "Content-Type: application/x-www-form-urlencoded" -d "Id=6&Name=APICreatedMove&Description=This+was+made+by+an+api+call&Type=Flying&Category=Physical&Power=100&Accuracy=75&PP=20&Priority=1"</code>
+    </p>
+    <h5><code>DELETE @ViewBag.address/api/move/{id}</code></h5>
+    <p>Used delete a move. Only works on moves created by "Anonymous".</p>
+
+</div>

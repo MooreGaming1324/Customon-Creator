@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Customon_Creator.Controllers {
+    // [AllowAnonymous]
+    // Method Team() does not function with the [Authorize] decorator when controller is stated to allow anonymous
     public class HomeController : Controller {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -35,6 +37,9 @@ namespace Customon_Creator.Controllers {
             var teams = await _userRepo.GetAllTeamsAsync();
             return View(teams);
         }
+        public async Task<IActionResult> API() {
+            return View();
+        }
 
         [Authorize]
         public async Task<IActionResult> Team() {
@@ -48,6 +53,11 @@ namespace Customon_Creator.Controllers {
             return View(teamVM);
         }
 
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="teamIds"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UpdateTeam(int[] teamIds) {
             var user = await _userManager.GetUserAsync(User);

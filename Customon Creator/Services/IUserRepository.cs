@@ -9,7 +9,8 @@ namespace Customon_Creator.Services {
         Task<ICollection<Move>> GetMovesAsync(string userId);
         Task<ICollection<ApplicationUser>> GetAllTeamsAsync();
         Task<ICollection<Pokemon>> GetPokemonWithMovesAsync(string userId);
+        Task<ApplicationUser?> GetUserAsync(string username);
 
 
-        }
     }
+}
