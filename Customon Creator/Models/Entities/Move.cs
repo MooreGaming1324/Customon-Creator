@@ -12,9 +12,13 @@ namespace Customon_Creator.Models.Entities {
         public string Description { get; set; } = "";
         public Pokemon.Type Type { get; set; }
         public DmgCategory Category { get; set; }
+        [Range(0, 500)]
         public int Power { get; set; }
+        [Range(1, 100)]
         public int Accuracy { get; set; }
+        [Range(1, 100)]
         public int PP { get; set; }
+        [Range(1, 5)]
         public int Priority { get; set; }
 
         // User can have many pokemon

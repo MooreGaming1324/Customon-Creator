@@ -11,12 +11,17 @@ namespace Customon_Creator.Models.Entities {
         public string Description { get; set; } = "";
         public Type Type1 { get; set; }
         public Type? Type2 { get; set; }
-
+        [Range(1, 500)]
         public int HP { get; set; }
+        [Range(1, 500)]
         public int Attack { get; set; }
+        [Range(1, 500)]
         public int Defense { get; set; }
+        [Range(1, 500)]
         public int SpAtk { get; set; }
+        [Range(1, 500)]
         public int SpDef {  get; set; }
+        [Range(1, 500)]
         public int Speed { get; set; }
 
         // Null means not on team
