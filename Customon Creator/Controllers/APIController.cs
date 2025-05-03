@@ -12,7 +12,10 @@ namespace Customon_Creator.Controllers {
         private readonly IMoveRepository _moveRepo = moveRepo;
         private readonly IUserRepository _userRepo = userRepo;
 
-
+        /// <summary>
+        /// Returns all created moves as a list of JSON objects, only including author's username for security reasons.
+        /// </summary>
+        /// <returns>HTTP JSON object</returns>
         [HttpGet("move")]
         public async Task<IActionResult> Get() {
             var moves = await _moveRepo.ReadAllAsync();
@@ -33,6 +36,11 @@ namespace Customon_Creator.Controllers {
             return Ok(movesWithUsername);
         }
 
+        /// <summary>
+        /// Create a new move, will always be assigned to "Anonymous" user for security reasons.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <returns>CreatedAtAction move</returns>
         [HttpPost("move")]
         public async Task<IActionResult> Post([FromForm] Move move) {
             var user = await _userRepo.GetUserAsync("Anonymous");
@@ -52,6 +60,11 @@ namespace Customon_Creator.Controllers {
             });
         }
 
+        /// <summary>
+        /// Returns a new default object with preset parameters, only including author's username to not send private information.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>HTTP JSON Object</returns>
         [HttpGet("move/{id}")]
         public async Task<IActionResult> Get(int id) {
             var move = await _moveRepo.ReadWithUserAsync(id);
@@ -73,6 +86,11 @@ namespace Customon_Creator.Controllers {
             return Ok(moveWithUsername);
         }
 
+        /// <summary>
+        /// Updates a desired move to have specific parameters. Only allowed to modify moves belonging to default "Anonymous" user.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <returns>Respective HTTP status codes</returns>
         [HttpPut("move")]
         public async Task<IActionResult> Put([FromForm] Move move) {
             var user = await _userRepo.GetUserAsync("Anonymous");
@@ -84,6 +102,11 @@ namespace Customon_Creator.Controllers {
             return BadRequest();
         }
 
+        /// <summary>
+        /// Deletes a desired move. Only allowed to delete moves belonging to default "Anonymous" user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>No Content HTTP status</returns>
         [HttpDelete("move/{id}")]
         public async Task<IActionResult> Delete(int id) {
             var user = await _userRepo.GetUserAsync("Anonymous");

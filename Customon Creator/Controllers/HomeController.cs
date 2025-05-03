@@ -26,6 +26,10 @@ namespace Customon_Creator.Controllers {
             _logger = logger;
         }
 
+        /// <summary>
+        /// Main home page of the website, displays generic statistics
+        /// </summary>
+        /// <returns>Appropriate View</returns>
         public IActionResult Index() {
             ViewBag.Users = _userRepo.GetUserCount();
             ViewBag.Pokemon = _pokemonRepo.GetPokemonCount();
@@ -33,14 +37,27 @@ namespace Customon_Creator.Controllers {
             return View();
         }
 
+        /// <summary>
+        /// Returns a view of all users and their respective teams if they exist
+        /// </summary>
+        /// <returns>Appropriate View</returns>
         public async Task<IActionResult> AllTeams() {
             var teams = await _userRepo.GetAllTeamsAsync();
             return View(teams);
         }
-        public async Task<IActionResult> API() {
+
+        /// <summary>
+        /// Returns a view detailing the endpoints and documentation about the API.
+        /// </summary>
+        /// <returns>Appropriate View</returns>
+        public IActionResult API() {
             return View();
         }
 
+        /// <summary>
+        /// Authorization Required. Displays current user's team and various other 
+        /// </summary>
+        /// <returns>Appropriate View</returns>
         [Authorize]
         public async Task<IActionResult> Team() {
             var user = await _userManager.GetUserAsync(User);
@@ -54,10 +71,10 @@ namespace Customon_Creator.Controllers {
         }
 
         /// <summary>
-        ///  
+        ///  Directed from the /Home/Team method, sending a POST request to update a users team.
         /// </summary>
-        /// <param name="teamIds"></param>
-        /// <returns></returns>
+        /// <param name="teamIds">An array of length 6 with the Ids of pokemon and their respective placement on the team.</param>
+        /// <returns>Respective HTTP status codes</returns>
         [HttpPost]
         public async Task<IActionResult> UpdateTeam(int[] teamIds) {
             var user = await _userManager.GetUserAsync(User);
@@ -70,6 +87,10 @@ namespace Customon_Creator.Controllers {
             return Problem();
         }
 
+        /// <summary>
+        /// Returns a view of the websites privacy policy.
+        /// </summary>
+        /// <returns>Appropriate View</returns>
         public IActionResult Privacy() {
             return View();
         }

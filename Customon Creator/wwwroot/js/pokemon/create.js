@@ -5,7 +5,7 @@ let selectTemplate = movesList.firstElementChild.cloneNode(true);
 setupEventDelegation();
 
 
-
+// Sets event listeners for adding moves to pokemon
 function setupEventDelegation() {
     document.addEventListener('change', (e) => {
         if (e.target.name === 'moveIds') {
@@ -25,7 +25,7 @@ function setupEventDelegation() {
     });
 }
 
-
+// Puts a delete button at the end of provided node
 function addDeleteButton(node) {
     let deletebtn = document.createElement("input");
     deletebtn.type = "button";
@@ -44,6 +44,7 @@ function addDeleteButton(node) {
     node.lastElementChild.appendChild(deletebtn);
 }
 
+// Removes duplicate items in all selects, allows for a cleaner selection process
 function disableSelectedOptions() {
 
     const values = Array.from(movesList.getElementsByTagName("select")).map((select) => select.value);

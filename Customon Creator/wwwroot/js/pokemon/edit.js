@@ -4,7 +4,6 @@ let selectTemplate = document.getElementById("selectTemplate").cloneNode(true);
 selectTemplate.id = "";
 selectTemplate.hidden = false;
 
-console.log(selectTemplate);
 if (movesList.childElementCount > 4) {
     let temp = document.getElementById("selectTemplate");
     temp.remove();
@@ -16,12 +15,11 @@ if (movesList.childElementCount > 4) {
 
 
 setupEventDelegation();
-
-//edit specifics
 deleteRepeatingOptions();
 disableSelectedOptions();
 
 
+// Removes repeating options from pregenerated selects
 function deleteRepeatingOptions() {
 
     for (const select of movesList.getElementsByTagName("select")) {
@@ -34,10 +32,8 @@ function deleteRepeatingOptions() {
         });
     }
 }
-//end edit specifics
 
-
-
+// Sets event listeners for adding moves to pokemon, and clicking the existing delete buttons
 function setupEventDelegation() {
     document.addEventListener('change', (e) => {
         if (e.target.name === 'moveIds') {
@@ -70,7 +66,7 @@ function setupEventDelegation() {
     }
 }
 
-
+// Puts a delete button at the end of provided node
 function addDeleteButton(node) {
     let deletebtn = document.createElement("input");
     deletebtn.type = "button";
@@ -89,6 +85,7 @@ function addDeleteButton(node) {
     node.lastElementChild.appendChild(deletebtn);
 }
 
+// Removes duplicate items in all selects, allows for a cleaner selection process
 function disableSelectedOptions() {
 
     const values = Array.from(movesList.getElementsByTagName("select")).map((select) => select.value);

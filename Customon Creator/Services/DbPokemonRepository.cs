@@ -8,14 +8,30 @@ namespace Customon_Creator.Services {
     public class DbPokemonRepository(ApplicationDbContext db) : IPokemonRepository {
         private readonly ApplicationDbContext _db = db;
 
+        /// <summary>
+        /// Returns the total number of pokemon in the database
+        /// </summary>
+        /// <returns>number of moves</returns>
         public int GetPokemonCount() {
             return _db.Pokemon.Count();
         }
+
+        /// <summary>
+        /// Returns all pokemon along with their associated user
+        /// </summary>
+        /// <returns>list of pokemon</returns>
         public async Task<ICollection<Pokemon>> ReadAllAsync() {
             return await _db.Pokemon
                 .Include(p => p.User)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Creates a pokemon and adds it to the database
+        /// </summary>
+        /// <param name="newPokemon"></param>
+        /// <param name="moveIds"></param>
+        /// <returns>pokemon with updated Id and data</returns>
         public async Task<Pokemon> CreateAsync(Pokemon newPokemon, List<int>? moveIds) {
             await _db.Pokemon.AddAsync(newPokemon);
             if (moveIds != null) {
@@ -35,12 +51,27 @@ namespace Customon_Creator.Services {
             await _db.SaveChangesAsync();
             return newPokemon;
         }
+
+        /// <summary>
+        /// Retrieves a singular pokemon from pokemon Id. Includes moves
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>single pokemon</returns>
         public async Task<Pokemon?> ReadAsync(int id) {
             return await _db.Pokemon
                 .Include(p => p.MoveList)
                 .ThenInclude(m => m.Move)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        /// <summary>
+        /// Updates a pokemon, requires authorization to modify the pokemon.
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="oldId"></param>
+        /// <param name="pokemon"></param>
+        /// <param name="moveIds"></param>
+        /// <returns>boolean value if pokemon was updated properly</returns>
         public async Task<bool> UpdateAsync(string userid, int oldId, Pokemon pokemon, List<int>? moveIds = null) {
             Pokemon? pokemonToUpdate = await ReadAsync(oldId);
             if (pokemonToUpdate != null) {
@@ -66,6 +97,13 @@ namespace Customon_Creator.Services {
             }
             return true;
         }
+
+        /// <summary>
+        /// Deletes a pokemon, requires authorization to modify the pokemon.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task DeleteAsync(string userId, int id) {
             Pokemon? pokemonToDelete = await ReadAsync(id);
             if (pokemonToDelete != null && userId == pokemonToDelete.UserId) {
@@ -74,6 +112,12 @@ namespace Customon_Creator.Services {
             }
         }
 
+        /// <summary>
+        /// Removes all pokemon from the team, then reassignes based on pokemonIds
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="pokemonIds"></param>
+        /// <returns></returns>
         public async Task UpdateTeamAsync(string userId, int[] pokemonIds) {
             for (int i = 0; i < 6; i++) {
                 if (pokemonIds[i] != 0) {
@@ -87,6 +131,12 @@ namespace Customon_Creator.Services {
             await _db.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Private internal method for removing the moves from a pokemon.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="moveIds"></param>
+        /// <returns></returns>
         private async Task ResetMovesAsync(int id, List<int> moveIds) {
             var pokemon = await ReadAsync(id);
             var moves = pokemon!.MoveList;

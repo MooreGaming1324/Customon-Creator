@@ -1,17 +1,15 @@
 ﻿
-console.log("working");
-
 const editTeamModalDOM = document.getElementById('editTeamModal');
 const editTeamModal = new bootstrap.Modal(editTeamModalDOM);
 
 
 
 setupEventDelegation();
-
 deleteRepeatingOptions();
 disableSelectedOptions();
 
 
+// Removes repeating options from pregenerated selects
 function deleteRepeatingOptions() {
 
     for (const select of editTeamModalDOM.getElementsByTagName("select")) {
@@ -24,8 +22,7 @@ function deleteRepeatingOptions() {
     }
 }
 
-
-
+// Sets event listeners for adding buttons and submits
 function setupEventDelegation() {
 
 
@@ -82,7 +79,7 @@ function setupEventDelegation() {
 
 }
 
-
+// Removes duplicate items in all selects, allows for a cleaner selection process
 function disableSelectedOptions() {
 
     let values = Array.from(editTeamModalDOM.getElementsByTagName("select")).map((select) => select.value);
@@ -98,8 +95,7 @@ function disableSelectedOptions() {
     }
 }
 
-
-
+// Uses AJAX to post team changes to server
 async function submitTeamAsync(pokemon) {
     const address = `/home/updateteam`;
     const response = await fetch(address, {
